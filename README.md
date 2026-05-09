@@ -1,3 +1,5 @@
+[![Download latest release](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://github.com/SnowWasTakenWasTaken/mp3-4-downloader/releases/download/v2/YouTubeDownloaderSetup.exe)
+
 ## Program Description
 
 This project is a command-line YouTube downloader and converter built in Python using `yt-dlp` and `ffmpeg`. It accepts YouTube links, supports both single videos and playlists, allows output selection as MP3 or MP4, and automatically removes temporary source files after successful conversion so the user ends up with only final media files.
