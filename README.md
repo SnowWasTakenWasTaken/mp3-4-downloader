@@ -1,3 +1,5 @@
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/SnowWasTakenWasTaken/mp3-4-downloader/total?style=for-the-badge)
+
 [![Download latest release](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://github.com/SnowWasTakenWasTaken/mp3-4-downloader/releases/download/v2/YouTubeDownloaderSetup.exe)
 
 ## Program Description
