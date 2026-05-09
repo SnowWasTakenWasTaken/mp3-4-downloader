@@ -190,5 +190,3 @@ if __name__ == "__main__":
 - Automatically cleans temporary media after successful conversion.
 - Handles missing ffmpeg gracefully instead of hard-crashing.
 - Includes runtime logic compatible with **bundled ffmpeg in packaged `.exe` builds**.
-
-If you want, I can also generate a shorter 2-4 sentence version for the GitHub repo “About” field and keep this one as README long description.
