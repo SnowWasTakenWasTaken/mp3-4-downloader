@@ -5,7 +5,12 @@ on:
   push:
     branches:
       - main
+    tags:
+      - "v*" # Triggers the release process on tags like v1.0.0
   pull_request:
+
+permissions:
+  contents: write # Required to create the release and upload assets
 
 jobs:
   build-linux:
@@ -53,3 +58,35 @@ jobs:
         with:
           name: youtube_downloader-macos
           path: dist/youtube_downloader-macos
+
+  release:
+    name: Create GitHub Release
+    needs: [build-linux, build-macos] # Wait for both build jobs to finish
+    if: startsWith(github.ref, 'refs/tags/v') # Only run if triggered by a v* tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Linux binary
+        uses: actions/download-artifact@v4
+        with:
+          name: youtube_downloader-linux
+          path: ./release-assets
+
+      - name: Download macOS binary
+        uses: actions/download-artifact@v4
+        with:
+          name: youtube_downloader-macos
+          path: ./release-assets
+
+      - name: Publish Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$TAG" \
+            ./release-assets/* \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="Release $TAG" \
+            --generate-notes
