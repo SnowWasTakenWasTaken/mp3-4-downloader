@@ -55,6 +55,8 @@ def download_source(
 
 
 def resolve_ffmpeg_tools() -> tuple[str, str] | None:
+    ffmpeg_names = ["ffmpeg.exe", "ffmpeg"]
+    ffprobe_names = ["ffprobe.exe", "ffprobe"]
     env_dir = os.environ.get("FFMPEG_DIR", "").strip()
     search_roots: list[Path] = []
 
@@ -80,10 +82,12 @@ def resolve_ffmpeg_tools() -> tuple[str, str] | None:
     for root in unique_roots:
         candidate_dirs = (root, root / "bin", root / "ffmpeg", root / "ffmpeg" / "bin")
         for directory in candidate_dirs:
-            ffmpeg = directory / "ffmpeg.exe"
-            ffprobe = directory / "ffprobe.exe"
-            if ffmpeg.exists() and ffprobe.exists():
-                return str(ffmpeg), str(ffprobe)
+            for ffmpeg_name in ffmpeg_names:
+                for ffprobe_name in ffprobe_names:
+                    ffmpeg = directory / ffmpeg_name
+                    ffprobe = directory / ffprobe_name
+                    if ffmpeg.exists() and ffprobe.exists():
+                        return str(ffmpeg), str(ffprobe)
 
     ffmpeg_path = shutil.which("ffmpeg")
     ffprobe_path = shutil.which("ffprobe")
@@ -176,7 +180,14 @@ def main() -> None:
     output_dir = get_default_output_dir()
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    print("YouTube Downloader (MP3/MP4)")
+    print(r"""
+__  __           ______      __            ____                      __                __              __   __  _______ _____         __     __  _______  __ __     _ 
+\ \/ /___  __  _/_  __/_  __/ /_  ___     / __ \____ _      ______  / /___  ____ _____/ /__  _____   _/_/  /  |/  / __ \__  /       _/_/    /  |/  / __ \/ // /    | |
+ \  / __ \/ / / // / / / / / __ \/ _ \   / / / / __ \ | /| / / __ \/ / __ \/ __ `/ __  / _ \/ ___/  / /   / /|_/ / /_/ //_ <      _/_/     / /|_/ / /_/ / // /_    / /
+ / / /_/ / /_/ // / / /_/ / /_/ /  __/  / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  __/ /     / /   / /  / / ____/__/ /    _/_/      / /  / / ____/__  __/   / / 
+/_/\____/\__,_//_/  \__,_/_.___/\___/  /_____/\____/|__/|__/_/ /_/_/\____/\__,_/\__,_/\___/_/     / /   /_/  /_/_/   /____/    /_/       /_/  /_/_/      /_/    _/_/  
+                                                                                                  |_|                                                          /_/    
+""")
     print("Type 'q' to quit.")
     print(f"Files will be saved in: {output_dir}")
 
